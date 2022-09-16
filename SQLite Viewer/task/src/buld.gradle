@@ -1,0 +1,18 @@
+plugins {
+    id 'application'
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.google.guava:guava:30.0-jre'
+    implementation 'org.xerial:sqlite-jdbc:3.34.0'
+    testImplementation 'junit:junit:4.13.1'
+}
+
+application {
+    mainClass = 'com.example.sqliteviewer.App'
+}

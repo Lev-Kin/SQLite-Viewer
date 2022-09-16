@@ -241,6 +241,15 @@ files:
         }
     }
   learner_created: false
-feedback_link: https://hyperskill.org/projects/171/stages/886/implement#comment
-status: Unchecked
+- name: src/buld.gradle
+  visible: true
+  learner_created: true
+- name: src/viewer/Database.java
+  visible: true
+  learner_created: true
+feedback_link: https://hyperskill.org/learn/step/12771#comment
+status: Solved
+feedback:
+  message: Congratulations!
+  time: Fri, 16 Sep 2022 08:23:58 UTC
 record: -1
