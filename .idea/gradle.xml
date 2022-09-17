@@ -18,6 +18,10 @@
             <option value="$PROJECT_DIR$/SQLite Viewer/task/build/reports/tests" />
             <option value="$PROJECT_DIR$/SQLite Viewer/task/build/test-results" />
             <option value="$PROJECT_DIR$/SQLite Viewer/task/build/tmp" />
+            <option value="$PROJECT_DIR$/Topics/JTable/Add TableModelListener" />
+            <option value="$PROJECT_DIR$/Topics/JTable/Extending Table Models" />
+            <option value="$PROJECT_DIR$/Topics/JTable/Theory" />
+            <option value="$PROJECT_DIR$/Topics/JTable/Triangle coordinates" />
             <option value="$PROJECT_DIR$/Topics/String/ Hello  string" />
             <option value="$PROJECT_DIR$/Topics/String/Appending strings and ints" />
             <option value="$PROJECT_DIR$/Topics/String/Check prefix ignoring the case" />
@@ -32,6 +36,13 @@
             <option value="$PROJECT_DIR$/Topics/Window listeners/Count a window active time" />
             <option value="$PROJECT_DIR$/Topics/Window listeners/Implement a listener" />
             <option value="$PROJECT_DIR$/Topics/Window listeners/Theory" />
+            <option value="$PROJECT_DIR$/Topics/toString()/Account" />
+            <option value="$PROJECT_DIR$/Topics/toString()/Class hierarchy" />
+            <option value="$PROJECT_DIR$/Topics/toString()/Convert persons and patients to string" />
+            <option value="$PROJECT_DIR$/Topics/toString()/String representation" />
+            <option value="$PROJECT_DIR$/Topics/toString()/Theory" />
+            <option value="$PROJECT_DIR$/Topics/toString()/Time as a string" />
+            <option value="$PROJECT_DIR$/Topics/toString()/toString method" />
             <option value="$PROJECT_DIR$/util" />
           </set>
         </option>

@@ -1,3 +1,5 @@
 content:
 - String
 - Window listeners
+- toString()
+- JTable
