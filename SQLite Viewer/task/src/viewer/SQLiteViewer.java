@@ -1,8 +1,14 @@
 package viewer;
 
+import viewer.workers.DataLoader;
+import viewer.workers.TableNamesLoader;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class SQLiteViewer extends JFrame {
 
@@ -10,7 +16,7 @@ public class SQLiteViewer extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(700, 700);
         setResizable(true);
-        setLayout(new BorderLayout(0, 16));
+        setLayout(new BorderLayout());
         setLocationRelativeTo(null);
         setTitle("SQLite Viewer");
         initComponents();
@@ -89,6 +95,7 @@ public class SQLiteViewer extends JFrame {
         queryTextArea.setRows(5);
         queryTextArea.setFont(jetbrainsMonoFont.deriveFont(Font.PLAIN));
         queryTextArea.setWrapStyleWord(true);
+        queryTextArea.setEnabled(false);
         constraints.fill = GridBagConstraints.BOTH;
         constraints.anchor = GridBagConstraints.CENTER;
         constraints.insets = topLeft8Padding;
@@ -100,6 +107,7 @@ public class SQLiteViewer extends JFrame {
         JButton executeQueryButton = new JButton("Execute");
         executeQueryButton.setName("ExecuteQueryButton");
         executeQueryButton.setFont(jetbrainsMonoFont);
+        executeQueryButton.setEnabled(false);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.anchor = GridBagConstraints.NORTH;
         constraints.insets = topLeft8Padding;
@@ -109,40 +117,39 @@ public class SQLiteViewer extends JFrame {
 
         add(topFormPanel, BorderLayout.PAGE_START);
 
-        JTable table = new JTable();
-        table.setName("Table");
-        table.setFont(jetbrainsMonoFont.deriveFont(Font.PLAIN));
-        table.setFillsViewportHeight(true);
-        JScrollPane tableScrollPane = new JScrollPane(table);
+        JTable dataTable = new JTable();
+        dataTable.setName("Table");
+        dataTable.setFont(jetbrainsMonoFont.deriveFont(Font.PLAIN));
+        dataTable.setFillsViewportHeight(true);
+        JScrollPane tableScrollPane = new JScrollPane(dataTable);
         tableScrollPane.setBorder(new EmptyBorder(8, 8, 8, 8));
         add(tableScrollPane, BorderLayout.CENTER);
 
 
         openFileButton.addActionListener(event -> {
-            try (Database database = new Database(fileNameTextField.getText())) {
-                tableSelect.removeAllItems();
-                database.getTables().forEach(tableSelect::addItem);
+            String fileName = fileNameTextField.getText();
+            if (Files.exists(Paths.get(fileName))) {
+                new TableNamesLoader(fileName, tableSelect).execute();
+                queryTextArea.setEnabled(true);
+                executeQueryButton.setEnabled(true);
                 queryTextArea.setText(String.format(Database.ALL_ROWS_QUERY, tableSelect.getSelectedItem()));
-            } catch (Exception e) {
-                e.printStackTrace();
+            } else {
+                tableSelect.removeAllItems();
+                queryTextArea.setText(null);
+                queryTextArea.setEnabled(false);
+                executeQueryButton.setEnabled(false);
+                dataTable.setModel(new DefaultTableModel());
+                JOptionPane.showMessageDialog(new Frame(), "File doesn't exist!", "File Error", JOptionPane.ERROR_MESSAGE);
             }
         });
 
-        tableSelect.addItemListener(event -> {
-            queryTextArea.setText(String.format(Database.ALL_ROWS_QUERY, event.getItem().toString()));
-        });
+        tableSelect.addItemListener(event -> queryTextArea.setText(
+                String.format(Database.ALL_ROWS_QUERY, event.getItem().toString())));
 
-        executeQueryButton.addActionListener(event -> {
-            try (Database database = new Database(fileNameTextField.getText())) {
-                DataTableModel tableModel = database.executeQuery(
-                        queryTextArea.getText(),
-                        (String) tableSelect.getSelectedItem()
-                );
-                table.setModel(tableModel);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
+        executeQueryButton.addActionListener(event -> new DataLoader(
+                fileNameTextField.getText(),
+                queryTextArea.getText(),
+                dataTable).execute());
     }
 }
 
